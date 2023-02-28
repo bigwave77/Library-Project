@@ -42,8 +42,30 @@ function showBooks() {
     asd3.innerText = myLibrary[i].pages;
     newBook.appendChild(asd3);
 
+    const readBtn = document.createElement("button");
+    if (myLibrary[i].isRead === true) {
+      readBtn.setAttribute("class", "read-status-true");
+      readBtn.innerText = "Read";
+    } else {
+      readBtn.setAttribute("class", "read-status-false");
+      readBtn.innerText = "Not read";
+    }
+    newBook.appendChild(readBtn);
+
+    readBtn.addEventListener("click", () => {
+      // if (readBtn.getAttribute("class", "read-status-true")) {
+      //   readBtn.setAttribute("class", "read-status-false");
+      //   readBtn.innerText = "Not read";
+      // } else if (readBtn.getAttribute("class", "read-status-false")) {
+      //   readBtn.setAttribute("class", "read-status-true");
+      // }
+
+      console.log(myLibrary);
+    });
+
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Delete";
+    deleteBtn.setAttribute("class", "delete");
     newBook.appendChild(deleteBtn);
     deleteBtn.addEventListener("click", (e) => {
       let bookIndex = e.target.parentElement.dataset.index;
@@ -64,6 +86,10 @@ function Book(title, author, pages, isRead) {
   this.pages = pages;
   this.isRead = isRead;
 }
+
+Book.prototype.changeReadStatus = function () {
+  this.isRead = !isRead;
+};
 
 function showModal() {
   modal.style.display = "block";
@@ -89,8 +115,14 @@ form.addEventListener("submit", (event) => {
   let title = document.querySelector("#book_title");
   let author = document.querySelector("#book_author");
   let pages = document.querySelector("#book_pages");
-  let read = document.querySelector("#read");
-  const book = new Book(title.value, author.value, pages.value, read.value);
+  let readChck = document.querySelector("#read");
+  let read;
+  if (readChck.checked) {
+    read = true;
+  } else {
+    read = false;
+  }
+  const book = new Book(title.value, author.value, pages.value, read);
   myLibrary.push(book);
   showBooks();
   // const cool = document.createElement("div");
